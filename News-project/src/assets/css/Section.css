@@ -1,0 +1,14 @@
+.section-title {
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: 800;
+  border-right: 5px solid #16a9f5;
+  padding-right: 12px;
+  margin-bottom: 20px;
+}
+.sidebar {
+  background: #111a2b;
+  border: 1px solid #24334b;
+  border-radius: 16px;
+  padding: 20px;
+}
