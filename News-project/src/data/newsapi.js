@@ -21,10 +21,10 @@ export async function getNews(category = "الرئيسية") {
   const response = await fetch(url);
 
   if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}));
+    const error = await response.json().catch(() => ({}));
 
     throw new Error(
-      errorData.message || "فشل في تحميل الأخبار"
+      error.message || "فشل في تحميل الأخبار"
     );
   }
 
