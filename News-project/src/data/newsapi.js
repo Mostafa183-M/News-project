@@ -1,8 +1,3 @@
-const API_KEY = "ae0d93f2d6c94fa498b594af7f5a0197";
-
-const API_URL = "https://newsapi.org/v2";
-
-
 const categoryMap = {
   "الرئيسية": "",
   "سياسة": "politics",
@@ -14,55 +9,26 @@ const categoryMap = {
   "علوم": "science",
 };
 
-
 export async function getNews(category = "الرئيسية") {
-
   const apiCategory = categoryMap[category] || "";
 
+  let url = "/api/news";
 
-  let url;
-
-
-  if (!apiCategory) {
-
-    url =
-      `${API_URL}/everything` +
-      `?q=أخبار` +
-      `&language=ar` +
-      `&sortBy=publishedAt` +
-      `&pageSize=20` +
-      `&apiKey=${API_KEY}`;
-
+  if (apiCategory) {
+    url += `?category=${encodeURIComponent(apiCategory)}`;
   }
-
-
-  else {
-
-    url =
-      `${API_URL}/top-headlines` +
-      `?country=us` +
-      `&category=${apiCategory}` +
-      `&pageSize=20` +
-      `&apiKey=${API_KEY}`;
-
-  }
-
 
   const response = await fetch(url);
 
-
   if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
 
     throw new Error(
-      "فشل في تحميل الأخبار"
+      errorData.message || "فشل في تحميل الأخبار"
     );
-
   }
-
 
   const data = await response.json();
 
-
   return data.articles || [];
-
 }
