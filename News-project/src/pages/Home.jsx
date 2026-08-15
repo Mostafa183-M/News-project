@@ -24,7 +24,7 @@ export default function Home({ lightMode, setLightMode }) {
   const [error, setError] = useState("");
 
 
-
+  
   useEffect(() => {
 
     async function loadNews() {
