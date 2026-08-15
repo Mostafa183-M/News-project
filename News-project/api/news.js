@@ -43,20 +43,21 @@ export default async function handler(req, res) {
     console.log("DATA:", data);
 
     if (!response.ok) {
-      return res.status(response.status).json({
-        message: data.message || "فشل تحميل الأخبار",
-      });
-    }
+  return res.status(response.status).json({
+    status: response.status,
+    error: data,
+  });
+}
 
     return res.status(200).json({
       articles: data.data || [],
     });
 
   } catch (error) {
-    console.error("ERROR:", error);
+  console.error("ERROR:", error);
 
-    return res.status(500).json({
-      message: "حدث خطأ أثناء تحميل الأخبار",
-    });
-  }
+  return res.status(500).json({
+    error: error.message,
+  });
 }
+  }
