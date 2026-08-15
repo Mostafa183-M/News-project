@@ -20,15 +20,13 @@ export async function getNews(category = "الرئيسية") {
 
   const response = await fetch(url);
 
-  if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}));
+  const data = await response.json();
 
+  if (!response.ok) {
     throw new Error(
-      errorData.message || "فشل في تحميل الأخبار"
+      data.message || "فشل في تحميل الأخبار"
     );
   }
-
-  const data = await response.json();
 
   return data.articles || [];
 }

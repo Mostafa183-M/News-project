@@ -10,7 +10,7 @@ export default async function handler(req, res) {
       });
     }
 
-    const topics = {
+    const categoryMap = {
       politics: "politics",
       business: "business",
       sports: "sports",
@@ -20,32 +20,27 @@ export default async function handler(req, res) {
       science: "science",
     };
 
-    const topic = topics[category];
+    let url =
+      "https://api.freenewsapi.io/v1/news" +
+      "?language=ar" +
+      "&order_by=recent";
 
-    let url = "https://api.freenewsapi.io/v1/news";
-
-    const params = new URLSearchParams();
-
-    params.set("language", "ar");
-    params.set("order_by", "recent");
-
-    if (topic) {
-      params.set("topic", topic);
+    if (category && categoryMap[category]) {
+      url += `&topic=${categoryMap[category]}`;
     }
 
-    url += `?${params.toString()}`;
-
     const response = await fetch(url, {
+      method: "GET",
       headers: {
         "x-api-key": API_KEY,
-        Accept: "application/json",
+        "Accept": "application/json",
       },
     });
 
     const data = await response.json();
 
-    console.log("FreeNewsAPI status:", response.status);
-    console.log("FreeNewsAPI response:", data);
+    console.log("STATUS:", response.status);
+    console.log("DATA:", data);
 
     if (!response.ok) {
       return res.status(response.status).json({
@@ -58,7 +53,7 @@ export default async function handler(req, res) {
     });
 
   } catch (error) {
-    console.error("Server error:", error);
+    console.error("ERROR:", error);
 
     return res.status(500).json({
       message: "حدث خطأ أثناء تحميل الأخبار",
